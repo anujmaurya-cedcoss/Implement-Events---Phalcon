@@ -38,17 +38,17 @@ class ProductController extends Controller
 
         $component->setEventsManager($eventsManager);
         $eventsManager->attach(
-            'application',
+            'application:beforeProductAdd',
             new Listener()
         );
         $component->processProduct();
 
         $input = array(
-            'name' => $this->escaper->escapeHtml($this->request->getPost('name')),
+            'name'        => $this->escaper->escapeHtml($this->request->getPost('name')),
             'description' => $this->escaper->escapeHtml($this->request->getPost('description')),
-            'tags' => $this->escaper->escapeHtml($this->request->getPost('tags')),
-            'price' => $this->escaper->escapeHtml($this->request->getPost('price')),
-            'stock' => $this->escaper->escapeHtml($this->request->getPost('stock')),
+            'tags'        => $this->escaper->escapeHtml($this->request->getPost('tags')),
+            'price'       => $this->escaper->escapeHtml($this->request->getPost('price')),
+            'stock'       => $this->escaper->escapeHtml($this->request->getPost('stock')),
         );
         $this->db->insert(
             "products",

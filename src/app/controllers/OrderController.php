@@ -12,7 +12,7 @@ class OrderController extends Controller
         $product = $this->db->fetchAll("SELECT * FROM products", \Phalcon\Db\Enum::FETCH_ASSOC);
         $output = "<label for=\"products\">Choose a product</label>
         <select name=\"products\" id=\"products\">";
-        foreach ($product as $key => $value) {
+        foreach ($product as $value) {
             $output .= "<option value=\"$value[name]\">$value[name]</option>";
         }
         $output .= '</select>';
@@ -26,16 +26,16 @@ class OrderController extends Controller
 
         $component->setEventsManager($eventsManager);
         $eventsManager->attach(
-            'application',
+            'application:beforeOrderAdd',
             new Listener()
         );
         $component->processOrder();
         $arr = array(
-            'customerName' => $this->escaper->escapeHtml($this->request->getPost('customerName')),
+            'customerName'    => $this->escaper->escapeHtml($this->request->getPost('customerName')),
             'customerAddress' => $this->escaper->escapeHtml($this->request->getPost('customerAddress')),
-            'zip' => $this->escaper->escapeHtml($this->request->getPost('zip')),
-            'products' => $this->escaper->escapeHtml($this->request->getPost('products')),
-            'quantity' => $this->escaper->escapeHtml($this->request->getPost('quantity'))
+            'zip'             => $this->escaper->escapeHtml($this->request->getPost('zip')),
+            'products'        => $this->escaper->escapeHtml($this->request->getPost('products')),
+            'quantity'        => $this->escaper->escapeHtml($this->request->getPost('quantity'))
         );
         $this->db->insert(
             "orders",

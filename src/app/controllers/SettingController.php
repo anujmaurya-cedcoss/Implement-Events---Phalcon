@@ -15,7 +15,7 @@ class SettingController extends Controller
             'title' => $this->escaper->escapeHtml($this->request->getPost('title')),
             'price' => $this->escaper->escapeHtml($this->request->getPost('defaultPrice')),
             'stock' => $this->escaper->escapeHtml($this->request->getPost('defaultStock')),
-            'zip' => $this->escaper->escapeHtml($this->request->getPost('defaultZip'))
+            'zip'   => $this->escaper->escapeHtml($this->request->getPost('defaultZip'))
         );
         if (isset($settings[0])) {
             $conn = $this->container->get('db');
