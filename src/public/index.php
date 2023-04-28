@@ -22,6 +22,10 @@ $loader->registerDirs(
         APP_PATH . "/models/",
     ]
 );
+$loader->registerNamespaces([
+    "handler\Listener" => APP_PATH . "/handlers/",
+    "handler\Aware" => APP_PATH . "/handlers/",
+]);
 
 $loader->register();
 

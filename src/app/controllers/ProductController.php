@@ -1,18 +1,18 @@
 <?php
 use Phalcon\Mvc\Controller;
+use handler\Aware\Aware;
+use handler\Listener\Listener;
+use Phalcon\Events\Manager as EventsManager;
 
 class ProductController extends Controller
 {
     public function IndexAction()
     {
-
+        // redirected to view
     }
     public function ShowAction()
     {
-        $product = $this->db->fetchAll(
-            "SELECT * FROM products",
-                \Phalcon\Db\Enum::FETCH_ASSOC
-        );
+        $product = $this->db->fetchAll("SELECT * FROM products", \Phalcon\Db\Enum::FETCH_ASSOC);
         $output = '<table class = "table table-bordered table-striped"><tr><th>Product Id</th>
         <th>Product Name</th>
         <th>Product Description</th>
@@ -33,9 +33,26 @@ class ProductController extends Controller
     }
     public function AddAction()
     {
+        $eventsManager = new EventsManager();
+        $component = new Aware();
+
+        $component->setEventsManager($eventsManager);
+        $eventsManager->attach(
+            'application',
+            new Listener()
+        );
+        $component->processProduct();
+
+        $input = array(
+            'name' => $this->escaper->escapeHtml($this->request->getPost('name')),
+            'description' => $this->escaper->escapeHtml($this->request->getPost('description')),
+            'tags' => $this->escaper->escapeHtml($this->request->getPost('tags')),
+            'price' => $this->escaper->escapeHtml($this->request->getPost('price')),
+            'stock' => $this->escaper->escapeHtml($this->request->getPost('stock')),
+        );
         $this->db->insert(
             "products",
-            $this->request->getPost(),
+            $input,
             [
                 'name',
                 'description',

@@ -2,7 +2,7 @@
     include(APP_PATH.'/views/header.php');
 ?>
 <h2>Add New Order</h2>
-<?php echo $this->tag->form("order/add"); ?>
+<?php echo $this->tag->form(["order/add", 'class' => 'form-group']); ?>
 <p>
     <label for="customerName">Customer Name</label>
     <?php echo $this->tag->textField("customerName"); ?>
