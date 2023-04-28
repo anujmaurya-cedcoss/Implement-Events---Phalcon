@@ -29,7 +29,7 @@ class OrderController extends Controller
             'application:beforeOrderAdd',
             new Listener()
         );
-        $component->processOrder();
+        $component->process();
         $arr = array(
             'customerName'    => $this->escaper->escapeHtml($this->request->getPost('customerName')),
             'customerAddress' => $this->escaper->escapeHtml($this->request->getPost('customerAddress')),

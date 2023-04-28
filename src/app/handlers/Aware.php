@@ -19,13 +19,9 @@ class Aware extends Injectable implements EventsAwareInterface
         $this->eventsManager = $eventsManager;
     }
 
-    public function processProduct()
+    public function process()
     {
         $this->eventsManager->fire('application:beforeProductAdd', $this);
-    }
-
-    public function processOrder()
-    {
         $this->eventsManager->fire('application:beforeOrderAdd', $this);
     }
 }

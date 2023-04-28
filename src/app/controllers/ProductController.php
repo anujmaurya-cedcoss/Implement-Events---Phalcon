@@ -41,7 +41,7 @@ class ProductController extends Controller
             'application:beforeProductAdd',
             new Listener()
         );
-        $component->processProduct();
+        $component->process();
 
         $input = array(
             'name'        => $this->escaper->escapeHtml($this->request->getPost('name')),
