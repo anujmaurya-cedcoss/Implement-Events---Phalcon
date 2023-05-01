@@ -6,6 +6,9 @@ use Phalcon\Mvc\Application;
 use Phalcon\Url;
 use Phalcon\Db\Adapter\Pdo\Mysql;
 use Phalcon\Config;
+use Phalcon\Session\Manager;
+use Phalcon\Session\Adapter\Stream;
+use handler\Listener\Listener;
 
 $config = new Config([]);
 
@@ -18,6 +21,7 @@ $loader = new Loader();
 
 $loader->registerDirs(
     [
+        APP_PATH. "/assets/",
         APP_PATH . "/controllers/",
         APP_PATH . "/models/",
     ]
@@ -64,6 +68,33 @@ $container->set(
         );
     }
 );
+// injecting session in container
+$container->set(
+    'session',
+    function () {
+        $session = new Manager();
+        $files = new Stream(
+            [
+                'savePath' => '/tmp',
+            ]
+        );
+        $session->setAdapter($files);
+        $session->start();
+        return $session;
+    }
+);
+
+$application = new Application($container);
+
+$eventsManager = $container->get('eventsManager');
+
+$eventsManager->attach(
+    'application:beforeHandleRequest',
+    new Listener()
+);
+$container->set('EventsManager', $eventsManager);
+$application->setEventsManager($eventsManager);
+
 
 try {
     // Handle the request
