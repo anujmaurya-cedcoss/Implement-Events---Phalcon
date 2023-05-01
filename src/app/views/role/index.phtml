@@ -1,0 +1,13 @@
+<?php
+include(APP_PATH.'/views/header.php');
+?>
+<h2>Add New Role</h2>
+<?php echo $this->tag->form(["role/add", 'class' => 'form-group']); ?>
+<p>
+    <label for="role">Role Name</label>
+    <?php echo $this->tag->textField("roleName"); ?>
+</p>
+<p>
+    <?php echo $this->tag->submitButton("Add Role");?>
+</p>
+</form>
